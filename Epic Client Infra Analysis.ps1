@@ -1,3 +1,9 @@
+# Epic Client Infrastructure Analysis 
+#
+# This script is written to assist in analyzing an Epic client infratructure environment and comparing it against Epic targets.
+# *Currently only supports Citrix - I don't have acces to a Horizon environment to develop against.
+# 
+
 # Prerequisites
 #     Citrix Powershell Module
 #     PowerCLI
@@ -7,7 +13,6 @@
 #     https://galaxy.epic.com/?#Browse/page=1!68!50!2875795,100047310&from=Galaxy-Redirect
 #     https://bronowski.it/blog/2020/06/powershell-into-excelimportexcel-module-part-1/
 #     https://github.com/dfinke/ImportExcel
-
 
 # ----------------------------------------------------
 # Configuration
