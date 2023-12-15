@@ -1,6 +1,7 @@
 # Prerequisites
 #     Citrix Powershell Module
 #     PowerCLI
+#     ImportExcel Module
 
 # References 
 #     https://galaxy.epic.com/?#Browse/page=1!68!50!2875795,100047310&from=Galaxy-Redirect
@@ -13,10 +14,10 @@
 # ----------------------------------------------------
 
 #vCenter to run analysis against; Connect-VIServer can be again against multiple vCenters at once
-$vCenter = "vcenter.lab.local"
+$vCenter = "tthepicvc01.phsi.promedica.org"
 
 #Citrix Delivery Controller
-$citrixDC = "citrix-dc.lab.local"
+$citrixDC = "XDDCE01.phsi.promedica.org"
 
 # -----------------------------------------------
 
@@ -36,7 +37,8 @@ foreach($dc in Get-Datacenter){
     Write-Host -foregroundcolor darkgreen $dc.Name
     
     #Enumerate clusters in datacenter 
-    foreach($cluster in $(Get-Cluster -Location $dc | Where Name -Like "*epicctxclstr*" )){
+    #Example for filtering clusters: foreach($cluster in $(Get-Cluster -Location $dc | Where Name -Like "*epicctxclstr*" )){
+    foreach($cluster in $(Get-Cluster -Location $dc)){
         Write-Host -foregroundcolor green $cluster.Name
         
         $clusterSessions = 0
@@ -111,6 +113,7 @@ foreach($dc in Get-Datacenter){
             $hostsObj | Add-Member -MemberType NoteProperty -Name "RAM Utilized (GB)" -Value $([math]::round($esx.MemoryUsageGB))
             $hostsObj | Add-Member -MemberType NoteProperty -Name "Target RAM Allocated (GB)" -Value $([math]::round(($esx.NumCpu * 1.5) / 6) * 30)
             $hostsObj | Add-Member -MemberType NoteProperty -Name "Sessions" -Value $esxSessions
+            $hostsObj | Add-Member -MemberType NoteProperty -Name "Sessions Per Core" -Value $([math]::Round(($esxSessions / $($esx.NumCpu)),1))
             #$hostsObj
             $hosts += $hostsObj
         }
